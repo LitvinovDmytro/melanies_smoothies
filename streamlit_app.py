@@ -34,9 +34,6 @@ pd_df = my_dataframe.to_pandas()
 fruit_rows = my_dataframe.collect()
 fruit_names = [row['SEARCH_ON'] for row in fruit_rows]
 
-# Optional: show table in the app
-st.dataframe(pd.DataFrame(fruit_rows), use_container_width=True)
-
 # --- Multiselect for ingredients ---
 ingredients_list = st.multiselect(
     "Choose up to 5 ingredients:",
