@@ -40,25 +40,26 @@ ingredients_list = st.multiselect(
 )
 
 # --- Handle user selection ---
+# --- Handle user selection ---
 if ingredients_list:
     ingredients_string = " ".join(ingredients_list)
 
     for fruit_chosen in ingredients_list:
-    # Try to find matching SEARCH_ON safely
-    match = pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON']
-    
-    if match.empty:  # ✅ No match found → skip
-        st.warning(f"No SEARCH_ON value found for '{fruit_chosen}'. Skipping API call.")
-        continue  # ✅ Go to next fruit
+        # ✅ everything inside the loop is indented 4 spaces
+        match = pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON']
 
-    search_on = str(match.iloc[0]).strip()
+        if match.empty:  # ✅ No match found → skip this fruit
+            st.warning(f"No SEARCH_ON value found for '{fruit_chosen}'. Skipping API call.")
+            continue  # move to next fruit
 
-    st.write(f"The search value for {fruit_chosen} is {search_on}.")
-   
-    st.subheader(fruit_chosen + ' Nutrition information')
-    smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + search_on)
-    st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
-   
+        search_on = str(match.iloc[0]).strip()
+
+        st.write(f"The search value for {fruit_chosen} is {search_on}.")
+
+        st.subheader(fruit_chosen + ' Nutrition information')
+        smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + search_on)
+        st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
+
     my_insert_stmt = f"""
         INSERT INTO smoothies.public.orders (ingredients, name_on_order)
         VALUES ('{ingredients_string}', '{name_on_order}')
@@ -69,5 +70,3 @@ if ingredients_list:
     if time_to_insert:
         session.sql(my_insert_stmt).collect()
         st.success('Your Smoothie is ordered!', icon="✅")
-
-
