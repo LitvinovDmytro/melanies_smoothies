@@ -2,6 +2,7 @@
 import streamlit as st
 import pandas as pd
 import requests
+import pandas
 from snowflake.snowpark.functions import col
 
 # --- Streamlit UI ---
@@ -23,7 +24,7 @@ cnx = st.connection("snowflake")
 session = cnx.session()  # ✅ Call the session method
 
 # --- Query available fruits ---
-my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
+my_dataframe = session.table("smoothies.public.fruit_options").select(col('SEARCH_ON'))
 
 # Collect data and convert to list
 fruit_rows = my_dataframe.collect()
