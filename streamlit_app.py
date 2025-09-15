@@ -24,15 +24,13 @@ cnx = st.connection("snowflake")
 session = cnx.session()  # ✅ Call the session method
 
 # --- Query available fruits ---
-my_dataframe = session.table("smoothies.public.fruit_options").select(col('SEARCH_ON'))
+my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'), col('SEARCH_ON'))
 
 pd_df = my_dataframe.to_pandas()
-# st.dataframe(pd_df)
-# st.stop()
 
 # Collect data and convert to list
 fruit_rows = my_dataframe.collect()
-fruit_names = [row['SEARCH_ON'] for row in fruit_rows]
+fruit_names = [row['FRUIT_NAME'] for row in fruit_rows]
 
 # --- Multiselect for ingredients ---
 ingredients_list = st.multiselect(
