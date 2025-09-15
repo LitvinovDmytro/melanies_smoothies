@@ -28,7 +28,7 @@ my_dataframe = session.table("smoothies.public.fruit_options").select(col('SEARC
 
 # Collect data and convert to list
 fruit_rows = my_dataframe.collect()
-fruit_names = [row['FRUIT_NAME'] for row in fruit_rows]
+fruit_names = [row['SEARCH_ON'] for row in fruit_rows]
 
 # Optional: show table in the app
 st.dataframe(pd.DataFrame(fruit_rows), use_container_width=True)
