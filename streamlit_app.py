@@ -27,7 +27,7 @@ session = cnx.session()  # ✅ Call the session method
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('SEARCH_ON'))
 
 pd_df = my_dataframe.to_pandas()
-st.dataframe(pd_df)
+# st.dataframe(pd_df)
 # st.stop()
 
 # Collect data and convert to list
